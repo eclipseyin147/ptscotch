@@ -219,9 +219,9 @@ configure_package_config_file(${PROJECT_SOURCE_DIR}/cmake/SCOTCHConfig.cmake.in
   INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ptscotch
   PATH_VARS CMAKE_INSTALL_INCLUDEDIR CMAKE_INSTALL_LIBDIR)
 
-#write_basic_package_version_file(PTSCOTCHConfigVersion.cmake
-#  VERSION ${SCOTCH_VERSION_LONG}
-#  COMPATIBILITY AnyNewerVersion)
+write_basic_package_version_file(PTSCOTCHConfigVersion.cmake
+  VERSION ${SCOTCH_VERSION_LONG}
+  COMPATIBILITY AnyNewerVersion)
 
 # Install config files
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/PTSCOTCHConfig.cmake
