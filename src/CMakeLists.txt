@@ -224,7 +224,7 @@ write_basic_package_version_file(SCOTCHConfigVersion.cmake
   COMPATIBILITY AnyNewerVersion)
 
 # Install config files
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/SCOTCHConfig.cmake
-  ${CMAKE_CURRENT_BINARY_DIR}/SCOTCHConfigVersion.cmake
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/PTSCOTCHConfig.cmake
+  ${CMAKE_CURRENT_BINARY_DIR}/PTSCOTCHConfigVersion.cmake
   COMPONENT scotch
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/scotch)
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ptscotch)

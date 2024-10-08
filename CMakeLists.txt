@@ -42,7 +42,7 @@
 ############################################################
 
 cmake_minimum_required(VERSION 3.10)
-project(ptscotch LANGUAGES C)
+project(PTSCOTCH LANGUAGES C)
 
 # Add module directory
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
