@@ -568,9 +568,17 @@ if (LIBLZMA_FOUND)
 endif ()
 
 # Add thread library
+
+
 if (Threads_FOUND)
+
     target_compile_definitions(scotch PRIVATE COMMON_PTHREAD SCOTCH_PTHREAD)
-    target_link_libraries(scotch PRIVATE Threads::Threads ${THREADS_PTHREADS_WIN32_LIBRARY})
+    if(NOT WIN32)
+        target_link_libraries(scotch PRIVATE Threads::Threads )
+    else()
+        target_link_libraries(scotch PRIVATE PThreads4W::PThreads4W ${THREADS_PTHREADS_WIN32_LIBRARY})
+    endif()
+
 endif (Threads_FOUND)
 
 # Include files
