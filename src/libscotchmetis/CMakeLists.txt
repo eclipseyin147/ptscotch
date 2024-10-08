@@ -120,7 +120,7 @@ foreach(version 3 5)
     COMPONENT libscotch
     FILE scotchmetisTargets.cmake
     NAMESPACE SCOTCH::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/scotch)
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ptscotch)
   if(INSTALL_METIS_HEADERS)
     install(TARGETS scotchmetisv${version}
       COMPONENT libscotch
@@ -196,7 +196,7 @@ if(BUILD_PTSCOTCH)
       COMPONENT libptscotch
       FILE ptscotchparmetisTargets.cmake
       NAMESPACE SCOTCH::
-      DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/scotch)
+      DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ptscotch)
 
     if(INSTALL_METIS_HEADERS)
       install(TARGETS ptscotchparmetisv${version}

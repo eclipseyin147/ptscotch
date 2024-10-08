@@ -128,7 +128,7 @@ install(EXPORT esmumpsTargets
   COMPONENT libscotch
   FILE esmumpsTargets.cmake
   NAMESPACE SCOTCH::
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/scotch)
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ptscotch)
 
 install(TARGETS esmumps
   COMPONENT libscotch
@@ -162,7 +162,7 @@ install(EXPORT ptesmumpsTargets
   COMPONENT libptscotch
   FILE ptesmumpsTargets.cmake
   NAMESPACE SCOTCH::
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/scotch)
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ptscotch)
 
 install(TARGETS ptesmumps
   COMPONENT libptscotch

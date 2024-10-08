@@ -854,7 +854,7 @@ foreach (_target ${TARGETS_LIST})
             COMPONENT libscotch
             FILE ${_target}Targets.cmake
             NAMESPACE SCOTCH::
-            DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/scotch)
+            DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ptscotch)
 
     install(TARGETS ${_target}
             COMPONENT libscotch
@@ -868,7 +868,7 @@ foreach (_target ${TARGETS_LIST})
                 COMPONENT libptscotch
                 FILE pt${_target}Targets.cmake
                 NAMESPACE SCOTCH::
-                DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/scotch)
+                DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ptscotch)
 
         install(TARGETS pt${_target}
                 COMPONENT libptscotch
