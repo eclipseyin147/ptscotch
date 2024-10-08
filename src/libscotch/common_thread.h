@@ -61,29 +61,31 @@
 /*+ Thread context status. +*/
 
 typedef enum ThreadContextStatus_ {
-  THREADCONTEXTSTATUSRDY,                         /*+ Ready to run +*/
-  THREADCONTEXTSTATUSRUN,                         /*+ Task running +*/
-  THREADCONTEXTSTATUSDWN                          /*+ Out of order +*/
+    THREADCONTEXTSTATUSRDY,                         /*+ Ready to run +*/
+    THREADCONTEXTSTATUSRUN,                         /*+ Task running +*/
+    THREADCONTEXTSTATUSDWN                          /*+ Out of order +*/
 } ThreadContextStatus;
 
 /*+ Context in which parallel tasks can be launched. The abstract type is defined in "common.h". +*/
 
 struct ThreadContext_ {
-  int                           thrdnbr;          /*+ Number of threads                   +*/
-  volatile ThreadContextStatus  statval;          /*+ Thread group status                 +*/
-  volatile void *               paraptr;          /*+ Pointer to function parameter       +*/
+    int thrdnbr;          /*+ Number of threads                   +*/
+    volatile ThreadContextStatus statval;          /*+ Thread group status                 +*/
+    volatile void *paraptr;          /*+ Pointer to function parameter       +*/
 #ifdef COMMON_PTHREAD
-  volatile ThreadFunc           funcptr;          /*+ Function to call at run time        +*/
-  volatile int                  barrnbr;          /*+ Number of threads currently blocked +*/
-  volatile unsigned int         bainnum;          /*+ Number of barrier instance          +*/
-  pthread_mutex_t               lockdat;          /*+ Lock for updating status            +*/
-  pthread_cond_t                conddat;          /*+ Wakeup condition for slave threads  +*/
-  union {                                         /*+ Context save area for main thread   +*/
-    int                         dummval;          /*+ Dummy value if no affinity enabled  +*/
+    volatile ThreadFunc           funcptr;          /*+ Function to call at run time        +*/
+    volatile int                  barrnbr;          /*+ Number of threads currently blocked +*/
+    volatile unsigned int         bainnum;          /*+ Number of barrier instance          +*/
+    pthread_mutex_t               lockdat;          /*+ Lock for updating status            +*/
+    pthread_cond_t                conddat;          /*+ Wakeup condition for slave threads  +*/
+    union {                                         /*+ Context save area for main thread   +*/
+      int                         dummval;          /*+ Dummy value if no affinity enabled  +*/
 #ifdef COMMON_PTHREAD_AFFINITY_LINUX
-    cpu_set_t                   cpusdat;          /*+ Original thread mask of main thread +*/
+      cpu_set_t                   cpusdat;          /*+ Original thread mask of main thread +*/
+#else
+      void*                       dummy;
 #endif /* COMMON_PTHREAD_AFFINITY_LINUX */
-  }                             savedat;          /*+ Save area for affinity mask         +*/
+    }                             savedat;          /*+ Save area for affinity mask         +*/
 #endif /* COMMON_PTHREAD */
 };
 

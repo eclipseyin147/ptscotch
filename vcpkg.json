@@ -1,0 +1,18 @@
+{
+  "name": "ptscotch",
+  "version-string": "2.0.0",
+  "builtin-baseline": "ad46340bfce415333d6a2139592c22a499fb0df0",
+  "dependencies": [
+    "bzip2",
+    "liblzma",
+    "zlib",
+    {
+      "name": "metis",
+      "version>=": "2022-07-27"
+    },
+    {
+      "name": "pthreads",
+      "version>=": "3.0.0#14"
+    }
+  ]
+}

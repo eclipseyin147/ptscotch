@@ -81,6 +81,10 @@ typedef void * YY_BUFFER_STATE;                   /* The same; Flex and Bison de
 **  The defines and includes (bis).
 */
 
+#ifdef _MSC_VER
+#define YY_NO_UNISTD_H
+#endif
+
 #include "parser.h"
 #include "parser_yy.h"
 #include "parser_ly.h"

@@ -94,6 +94,10 @@
 %option nounput
 %option noyywrap
 %option reentrant
+/* To support build on Windows */
+%option nounistd
+
+
 
 IDENT                       [A-Za-z][0-9A-Za-z]*
 INTEGER                     [0-9]+

@@ -59,6 +59,7 @@
 #include "common.h"
 #include "common_file.h"
 #include "common_file_compress.h"
+
 #ifdef COMMON_FILE_COMPRESS_BZ2
 #include "bzlib.h"
 #endif /* COMMON_FILE_COMPRESS_BZ2 */
@@ -73,25 +74,25 @@
 **  The static definitions.
 */
 
-static FileCompressTab      filetab[] = {
+static FileCompressTab filetab[] = {
 #ifdef COMMON_FILE_COMPRESS_BZ2
-                                          { ".bz2",  FILECOMPRESSTYPEBZ2,    },
+        { ".bz2",  FILECOMPRESSTYPEBZ2,    },
 #else /* COMMON_FILE_COMPRESS_BZ2 */
-                                          { ".bz2",  FILECOMPRESSTYPENOTIMPL },
+        {".bz2", FILECOMPRESSTYPENOTIMPL},
 #endif /* COMMON_FILE_COMPRESS_BZ */
 #ifdef COMMON_FILE_COMPRESS_GZ
-                                          { ".gz",   FILECOMPRESSTYPEGZ,     },
+        { ".gz",   FILECOMPRESSTYPEGZ,     },
 #else /* COMMON_FILE_COMPRESS_GZ */
-                                          { ".gz",   FILECOMPRESSTYPENOTIMPL },
+        {".gz", FILECOMPRESSTYPENOTIMPL},
 #endif /* COMMON_FILE_COMPRESS_GZ */
 #ifdef COMMON_FILE_COMPRESS_LZMA
-                                          { ".lzma", FILECOMPRESSTYPELZMA    },
-                                          { ".xz",   FILECOMPRESSTYPELZMA    },
+        { ".lzma", FILECOMPRESSTYPELZMA    },
+        { ".xz",   FILECOMPRESSTYPELZMA    },
 #else /* COMMON_FILE_COMPRESS_LZMA */
-                                          { ".lzma", FILECOMPRESSTYPENOTIMPL },
-                                          { ".xz",   FILECOMPRESSTYPENOTIMPL },
+        {".lzma", FILECOMPRESSTYPENOTIMPL},
+        {".xz", FILECOMPRESSTYPENOTIMPL},
 #endif /* COMMON_FILE_COMPRESS_LZMA */
-                                          { NULL,    FILECOMPRESSTYPENOTIMPL } };
+        {NULL, FILECOMPRESSTYPENOTIMPL}};
 
 /*********************************/
 /*                               */
@@ -109,22 +110,22 @@ static FileCompressTab      filetab[] = {
 */
 
 int
-fileDecompressType (
-const char * const          nameptr)              /*+ Name string +*/
+fileDecompressType(
+        const char *const nameptr)              /*+ Name string +*/
 {
-  size_t              namelen;
-  int                 i;
+    size_t namelen;
+    int i;
 
-  namelen = strlen (nameptr);
-  for (i = 0; filetab[i].name != NULL; i ++) {
-    size_t              extnlen;                  /* Name of extension string */
+    namelen = strlen(nameptr);
+    for (i = 0; filetab[i].name != NULL; i++) {
+        size_t extnlen;                  /* Name of extension string */
 
-    extnlen = strlen (filetab[i].name);
-    if ((namelen >= extnlen) && (strncmp (filetab[i].name, nameptr + (namelen - extnlen), extnlen) == 0))
-      return (filetab[i].type);
-  }
+        extnlen = strlen(filetab[i].name);
+        if ((namelen >= extnlen) && (strncmp(filetab[i].name, nameptr + (namelen - extnlen), extnlen) == 0))
+            return (filetab[i].type);
+    }
 
-  return (FILECOMPRESSTYPENONE);
+    return (FILECOMPRESSTYPENONE);
 }
 
 /* This routine creates a thread to decompress the
@@ -141,107 +142,106 @@ const char * const          nameptr)              /*+ Name string +*/
 
 static
 void *                                            /* (void *) to comply to the Posix pthread API */
-fileDecompress2 (
-FileCompress * const        compptr)
-{
-  switch (compptr->typeval) {
+fileDecompress2(
+        FileCompress *const compptr) {
+    switch (compptr->typeval) {
 #ifdef COMMON_FILE_COMPRESS_BZ2
-    case FILECOMPRESSTYPEBZ2 :
-      fileDecompressBz2 (compptr);
-      break;
+        case FILECOMPRESSTYPEBZ2 :
+          fileDecompressBz2 (compptr);
+          break;
 #endif /* COMMON_FILE_COMPRESS_BZ2 */
 #ifdef COMMON_FILE_COMPRESS_GZ
-    case FILECOMPRESSTYPEGZ :
-      fileDecompressGz (compptr);
-      break;
+        case FILECOMPRESSTYPEGZ :
+          fileDecompressGz (compptr);
+          break;
 #endif /* COMMON_FILE_COMPRESS_GZ */
 #ifdef COMMON_FILE_COMPRESS_LZMA
-    case FILECOMPRESSTYPELZMA :
-      fileDecompressLzma (compptr);
-      break;
+        case FILECOMPRESSTYPELZMA :
+          fileDecompressLzma (compptr);
+          break;
 #endif /* COMMON_FILE_COMPRESS_LZMA */
-    default :
-      errorPrint ("fileDecompress2: method not implemented");
-  }
+        default :
+            errorPrint("fileDecompress2: method not implemented");
+    }
 
-  close   (compptr->infdnum);                     /* Close writer's end */
-  memFree (compptr->bufftab);                     /* Free data buffer   */
+    close(compptr->infdnum);                     /* Close writer's end */
+    memFree (compptr->bufftab);                     /* Free data buffer   */
 #ifdef COMMON_DEBUG
-  compptr->bufftab = NULL;
+    compptr->bufftab = NULL;
 #endif /* COMMON_DEBUG */
 
-  return (NULL);                                  /* Don't care anyway */
+    return (NULL);                                  /* Don't care anyway */
 }
 
 int
-fileDecompress (
-File * const                fileptr,              /*+ Compressed input stream   +*/
-const FileCompressType      typeval)              /*+ (De)compression algorithm +*/
+fileDecompress(
+        File *const fileptr,              /*+ Compressed input stream   +*/
+        const FileCompressType typeval)              /*+ (De)compression algorithm +*/
 {
-  int                 filetab[2];
-  FILE *              readptr;
-  FileCompress *      compptr;
+    int filetab[2];
+    FILE *readptr;
+    FileCompress *compptr;
 
-  if (typeval <= FILECOMPRESSTYPENONE)            /* If nothing to do */
-    return (0);
+    if (typeval <= FILECOMPRESSTYPENONE)            /* If nothing to do */
+        return (0);
 
-  if (pipe (filetab) != 0) {
-    errorPrint ("fileDecompress: cannot create pipe");
-    return (1);
-  }
+    if (pipe(filetab) != 0) {
+        errorPrint("fileDecompress: cannot create pipe");
+        return (1);
+    }
 
-  if ((readptr = fdopen (filetab[0], "r")) == NULL) { /* New stream master will read from */
-    errorPrint ("fileDecompress: cannot create stream");
-    close  (filetab[0]);
-    close  (filetab[1]);
-    return (1);
-  }
+    if ((readptr = fdopen(filetab[0], "r")) == NULL) { /* New stream master will read from */
+        errorPrint("fileDecompress: cannot create stream");
+        close(filetab[0]);
+        close(filetab[1]);
+        return (1);
+    }
 
-  if (((compptr = memAlloc (sizeof (FileCompress))) == NULL) || /* Compression structure to be freed by master */
-      ((compptr->bufftab = memAlloc (FILECOMPRESSDATASIZE)) == NULL)) {
-    errorPrint ("fileDecompress: out of memory");
-    if (compptr != NULL)
-      memFree (compptr);
-    fclose (readptr);
-    close  (filetab[1]);
-    return (1);
-  }
+    if (((compptr = memAlloc (sizeof(FileCompress))) == NULL) || /* Compression structure to be freed by master */
+        ((compptr->bufftab = memAlloc (FILECOMPRESSDATASIZE)) == NULL)) {
+        errorPrint("fileDecompress: out of memory");
+        if (compptr != NULL)
+            memFree (compptr);
+        fclose(readptr);
+        close(filetab[1]);
+        return (1);
+    }
 
-  compptr->typeval = typeval;                     /* Fill structure to be passed to decompression thread/process */
-  compptr->infdnum = filetab[1];
-  compptr->oustptr = fileptr->fileptr;            /* Compressed stream to read from */
+    compptr->typeval = typeval;                     /* Fill structure to be passed to decompression thread/process */
+    compptr->infdnum = filetab[1];
+    compptr->oustptr = fileptr->fileptr;            /* Compressed stream to read from */
 
 #ifdef COMMON_PTHREAD_FILE
-  if (pthread_create (&compptr->thrdval, NULL, (void * (*) (void *)) fileDecompress2, (void *) compptr) != 0) { /* If could not create thread */
-    errorPrint ("fileDecompress: cannot create thread");
-    memFree (compptr->bufftab);
-    memFree (compptr);
-    fclose  (readptr);
-    close   (filetab[1]);
-    return  (1);
-  }
-#else /* COMMON_PTHREAD_FILE */
-  switch (compptr->procval = fork ()) {
-    case -1 :                                     /* Error */
-      errorPrint ("fileDecompress: cannot create child process");
+    if (pthread_create (&compptr->thrdval, NULL, (void * (*) (void *)) fileDecompress2, (void *) compptr) != 0) { /* If could not create thread */
+      errorPrint ("fileDecompress: cannot create thread");
       memFree (compptr->bufftab);
       memFree (compptr);
       fclose  (readptr);
       close   (filetab[1]);
       return  (1);
-    case 0 :                                      /* We are the son process    */
-      fclose (readptr);                           /* Close reader pipe stream  */
-      fileDecompress2 (compptr);                  /* Perform decompression     */
-      exit (EXIT_SUCCESS);                        /* Exit gracefully           */
-    default :                                     /* We are the father process */
-      close (filetab[1]);                         /* Close the writer pipe end */
-  }
+    }
+#else /* COMMON_PTHREAD_FILE */
+    switch (compptr->procval = fork()) {
+        case -1 :                                     /* Error */
+            errorPrint("fileDecompress: cannot create child process");
+            memFree (compptr->bufftab);
+            memFree (compptr);
+            fclose(readptr);
+            close(filetab[1]);
+            return (1);
+        case 0 :                                      /* We are the son process    */
+            fclose(readptr);                           /* Close reader pipe stream  */
+            fileDecompress2(compptr);                  /* Perform decompression     */
+            exit(EXIT_SUCCESS);                        /* Exit gracefully           */
+        default :                                     /* We are the father process */
+            close(filetab[1]);                         /* Close the writer pipe end */
+    }
 #endif /* COMMON_PTHREAD_FILE */
 
-  fileptr->fileptr = readptr;                     /* Master can read from pipe */
-  fileptr->compptr = compptr;
+    fileptr->fileptr = readptr;                     /* Master can read from pipe */
+    fileptr->compptr = compptr;
 
-  return (0);
+    return (0);
 }
 
 /* This routine decompresses a stream compressed
@@ -373,7 +373,12 @@ FileCompress * const        compptr)
   decodat.avail_out = FILECOMPRESSDATASIZE;
   do {
     if ((decodat.avail_in == 0) && (deacval == LZMA_RUN)) {
-      ssize_t             bytenbr;
+
+#ifdef _MSC_VER
+      size_t              bytenbr; //According to MSDN fread returns size_t
+#else
+       ssize_t             bytenbr;
+#endif
 
       bytenbr = fread (compptr->bufftab, 1, FILECOMPRESSDATASIZE, compptr->oustptr); /* Read from pipe */
       if (ferror (compptr->oustptr)) {
