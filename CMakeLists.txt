@@ -42,7 +42,7 @@
 ############################################################
 
 cmake_minimum_required(VERSION 3.10)
-project(SCOTCH LANGUAGES C)
+project(ptscotch LANGUAGES C)
 
 # Add module directory
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
@@ -158,3 +158,5 @@ if (BUILD_PTSCOTCH)
                 DESTINATION ${CMAKE_INSTALL_DATADIR}/man/man1 COMPONENT ptscotch)
     endforeach ()
 endif (BUILD_PTSCOTCH)
+
+
