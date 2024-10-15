@@ -149,6 +149,7 @@ set(scotch_man_pages
 foreach (f IN LISTS scotch_man_pages)
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/man/man1/${f}
             DESTINATION ${CMAKE_INSTALL_DATADIR}/man/man1 COMPONENT scotch)
+
 endforeach ()
 
 if (BUILD_PTSCOTCH)
