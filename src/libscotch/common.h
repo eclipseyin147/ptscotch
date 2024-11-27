@@ -101,10 +101,6 @@
 #endif /* (INT_WIDTH == 64) */
 #endif /* _MSC_VER */
 #define ssize_t                     SSIZE_T
-#if ((defined _WIN32) && (! defined __MINGW32__))
-#define strncasecmp                 strnicmp
-#define strcasecmp                  stricmp
-#endif /* ((defined _WIN32) && (! defined __MINGW32__)) */
 #define pipe(fd)                    _pipe (fd, 32768, O_BINARY)
 #define sleep(s)                    Sleep (1000 * (s))
 #endif /* COMMON_OS_WINDOWS */
