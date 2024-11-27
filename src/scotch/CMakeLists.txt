@@ -120,10 +120,11 @@ foreach (target ${scotch_exe})
 endforeach ()
 
 # Targets which need special source lists
-add_scotch_exe(gout gout_c.c gout_o.c)
-if (NOT WIN32)
-    target_link_libraries(gout PRIVATE m)
-endif (NOT WIN32)
+#add_scotch_exe(gout gout_c.c gout_o.c)
+
+#if (NOT WIN32)
+#    target_link_libraries(gout PRIVATE m)
+#endif (NOT WIN32)
 
 # gpart is a special target (same source as gmap)
 add_scotch_exe(gpart gmap.c gmap.h)

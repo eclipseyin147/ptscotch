@@ -397,13 +397,13 @@ add_test(NAME gord_block_2 COMMAND $<TARGET_FILE:gord> ${dat}/m4x4_b1_ev.grf m4x
 add_test(NAME gord_block_3 COMMAND $<TARGET_FILE:gord> ${dat}/m4x4_b1_ev.grf m4x4_b1_ev.ord '-ob{cmin=1,strat=s}')
 
 # check_prog_gout
-add_test(NAME gout_1 COMMAND ${BASH} -c "'$<TARGET_FILE:gpart>' 9 '${dat}/bump.grf' bump_k9.map -vmt && \
-  '$<TARGET_FILE:gord>' '${dat}/bump.grf' bump.ord -vt && \
-  '$<TARGET_FILE:gout>' '-Om{e}' -gn '${dat}/bump.grf' ${dev_null} bump.ord bump_ord.eps")
-add_test(NAME gout_2 COMMAND ${BASH} -c "'$<TARGET_FILE:gpart>' 9 '${dat}/bump.grf' bump_k9.map -vmt && \
-  '$<TARGET_FILE:gout>' '-Op{d,e,g,r,s}' '${dat}/bump.grf' '${dat}/bump.xyz' bump_k9.map bump_k9.eps")
-add_test(NAME gout_3 COMMAND ${BASH} -c "'$<TARGET_FILE:gpart>' 9 '${dat}/bump.grf' bump_k9.map -vmt && \
-  '$<TARGET_FILE:gout>' '-Oi{c,r}' '${dat}/bump.grf' '${dat}/bump.xyz' bump_k9.map bump_k9.iv")
+#add_test(NAME gout_1 COMMAND ${BASH} -c "'$<TARGET_FILE:gpart>' 9 '${dat}/bump.grf' bump_k9.map -vmt && \
+#  '$<TARGET_FILE:gord>' '${dat}/bump.grf' bump.ord -vt && \
+#  '$<TARGET_FILE:gout>' '-Om{e}' -gn '${dat}/bump.grf' ${dev_null} bump.ord bump_ord.eps")
+#add_test(NAME gout_2 COMMAND ${BASH} -c "'$<TARGET_FILE:gpart>' 9 '${dat}/bump.grf' bump_k9.map -vmt && \
+#  '$<TARGET_FILE:gout>' '-Op{d,e,g,r,s}' '${dat}/bump.grf' '${dat}/bump.xyz' bump_k9.map bump_k9.eps")
+#add_test(NAME gout_3 COMMAND ${BASH} -c "'$<TARGET_FILE:gpart>' 9 '${dat}/bump.grf' bump_k9.map -vmt && \
+#  '$<TARGET_FILE:gout>' '-Oi{c,r}' '${dat}/bump.grf' '${dat}/bump.xyz' bump_k9.map bump_k9.iv")
 
 # check_prog_gpart
 add_test(NAME gpart_1 COMMAND $<TARGET_FILE:gpart> 9 ${dat}/bump.grf bump_k9.map -vmt)
